@@ -37,6 +37,7 @@ public class FBSnapshotTest: NSObject {
     // swiftlint:disable:next function_parameter_count
     class func compareSnapshot(_ instance: Snapshotable,
                                isDeviceAgnostic: Bool = false,
+                               fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                                usesDrawRect: Bool = false,
                                snapshot: String,
                                record: Bool,
@@ -48,10 +49,14 @@ public class FBSnapshotTest: NSObject {
         let testName = parseFilename(filename: filename)
         let snapshotController: FBSnapshotTestController = FBSnapshotTestController(test: self)
         snapshotController.folderName = testName
-        if isDeviceAgnostic {
-            snapshotController.fileNameOptions = [.device, .OS, .screenSize, .screenScale]
+        if let fileNameOptions = fileNameOptions {
+            snapshotController.fileNameOptions = fileNameOptions
         } else {
-            snapshotController.fileNameOptions = .screenScale
+            if isDeviceAgnostic {
+                snapshotController.fileNameOptions = [.device, .OS, .screenSize, .screenScale]
+            } else {
+                snapshotController.fileNameOptions = .screenScale
+            }
         }
         snapshotController.recordMode = record
         snapshotController.referenceImagesDirectory = referenceDirectory
@@ -215,6 +220,7 @@ private func performSnapshotTest(_ name: String?,
 private func recordSnapshot(_ name: String?,
                             identifier: String? = nil,
                             isDeviceAgnostic: Bool = false,
+                            fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                             usesDrawRect: Bool = false,
                             actualExpression: Expression<Snapshotable>,
                             failureMessage: FailureMessage) -> Bool {
@@ -229,6 +235,7 @@ private func recordSnapshot(_ name: String?,
 
     if FBSnapshotTest.compareSnapshot(instance,
                                       isDeviceAgnostic: isDeviceAgnostic,
+                                      fileNameOptions: fileNameOptions,
                                       usesDrawRect: usesDrawRect,
                                       snapshot: snapshotName,
                                       record: true,
@@ -299,20 +306,22 @@ public func haveValidDeviceAgnosticSnapshot(named name: String? = nil,
 
 public func recordSnapshot(named name: String? = nil,
                            identifier: String? = nil,
+                           fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                            usesDrawRect: Bool = false) -> Predicate<Snapshotable> {
 
     return Predicate.fromDeprecatedClosure { actualExpression, failureMessage in
-        return recordSnapshot(name, identifier: identifier, usesDrawRect: usesDrawRect,
+        return recordSnapshot(name, identifier: identifier, fileNameOptions: fileNameOptions, usesDrawRect: usesDrawRect,
                               actualExpression: actualExpression, failureMessage: failureMessage)
     }
 }
 
 public func recordDeviceAgnosticSnapshot(named name: String? = nil,
                                          identifier: String? = nil,
+                                         fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                                          usesDrawRect: Bool = false) -> Predicate<Snapshotable> {
 
     return Predicate.fromDeprecatedClosure { actualExpression, failureMessage in
-        return recordSnapshot(name, identifier: identifier, isDeviceAgnostic: true, usesDrawRect: usesDrawRect,
+        return recordSnapshot(name, identifier: identifier, isDeviceAgnostic: true, fileNameOptions: fileNameOptions, usesDrawRect: usesDrawRect,
                               actualExpression: actualExpression, failureMessage: failureMessage)
     }
 }
