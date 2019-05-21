@@ -193,6 +193,7 @@ func clearFailureMessage(_ failureMessage: FailureMessage) {
 private func performSnapshotTest(_ name: String?,
                                  identifier: String? = nil,
                                  isDeviceAgnostic: Bool = false,
+                                 fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                                  usesDrawRect: Bool = false,
                                  actualExpression: Expression<Snapshotable>,
                                  failureMessage: FailureMessage,
@@ -204,7 +205,7 @@ private func performSnapshotTest(_ name: String?,
     let snapshotName = sanitizedTestName(name)
     let tolerance = tolerance ?? getTolerance()
 
-    let result = FBSnapshotTest.compareSnapshot(instance, isDeviceAgnostic: isDeviceAgnostic,
+    let result = FBSnapshotTest.compareSnapshot(instance, isDeviceAgnostic: isDeviceAgnostic, fileNameOptions: fileNameOptions,
                                                 usesDrawRect: usesDrawRect, snapshot: snapshotName, record: false,
                                                 referenceDirectory: referenceImageDirectory, tolerance: tolerance,
                                                 filename: actualExpression.location.file, identifier: identifier)
@@ -266,6 +267,7 @@ internal var switchChecksWithRecords = false
 
 public func haveValidSnapshot(named name: String? = nil,
                               identifier: String? = nil,
+                              fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                               usesDrawRect: Bool = false,
                               tolerance: CGFloat? = nil) -> Predicate<Snapshotable> {
 
@@ -289,16 +291,17 @@ public func haveValidSnapshot(named name: String? = nil,
 
 public func haveValidDeviceAgnosticSnapshot(named name: String? = nil,
                                             identifier: String? = nil,
+                                            fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                                             usesDrawRect: Bool = false,
                                             tolerance: CGFloat? = nil) -> Predicate<Snapshotable> {
 
     return Predicate.fromDeprecatedClosure { actualExpression, failureMessage in
         if switchChecksWithRecords {
-            return recordSnapshot(name, identifier: identifier, isDeviceAgnostic: true, usesDrawRect: usesDrawRect,
+            return recordSnapshot(name, identifier: identifier, isDeviceAgnostic: true, fileNameOptions: fileNameOptions, usesDrawRect: usesDrawRect,
                                   actualExpression: actualExpression, failureMessage: failureMessage)
         }
 
-        return performSnapshotTest(name, identifier: identifier, isDeviceAgnostic: true, usesDrawRect: usesDrawRect,
+        return performSnapshotTest(name, identifier: identifier, isDeviceAgnostic: true, fileNameOptions: fileNameOptions, usesDrawRect: usesDrawRect,
                                    actualExpression: actualExpression,
                                    failureMessage: failureMessage, tolerance: tolerance)
     }
