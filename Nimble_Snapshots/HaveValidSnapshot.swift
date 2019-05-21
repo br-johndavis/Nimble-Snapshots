@@ -275,6 +275,7 @@ public func haveValidSnapshot(named name: String? = nil,
         if switchChecksWithRecords {
             return recordSnapshot(name,
                                   identifier: identifier,
+                                  fileNameOptions: fileNameOptions,
                                   usesDrawRect: usesDrawRect,
                                   actualExpression: actualExpression,
                                   failureMessage: failureMessage)
@@ -282,6 +283,7 @@ public func haveValidSnapshot(named name: String? = nil,
 
         return performSnapshotTest(name,
                                    identifier: identifier,
+                                   fileNameOptions: fileNameOptions,
                                    usesDrawRect: usesDrawRect,
                                    actualExpression: actualExpression,
                                    failureMessage: failureMessage,
