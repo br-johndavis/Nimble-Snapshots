@@ -1,16 +1,18 @@
 import Nimble
-
+import FBSnapshotTestCase
 // MARK: - Nicer syntax using == operator
 
 public struct Snapshot {
     let name: String?
     let record: Bool
     let usesDrawRect: Bool
+    let fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption?
 
-    init(name: String?, record: Bool, usesDrawRect: Bool) {
+    init(name: String?, record: Bool, usesDrawRect: Bool, fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil) {
         self.name = name
         self.record = record
         self.usesDrawRect = usesDrawRect
+        self.fileNameOptions = fileNameOptions
     }
 }
 
@@ -20,21 +22,22 @@ public func snapshot(_ name: String? = nil,
 }
 
 public func recordSnapshot(_ name: String? = nil,
-                           usesDrawRect: Bool = false) -> Snapshot {
-    return Snapshot(name: name, record: true, usesDrawRect: usesDrawRect)
+                           usesDrawRect: Bool = false,
+                           fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil) -> Snapshot {
+    return Snapshot(name: name, record: true, usesDrawRect: usesDrawRect, fileNameOptions: fileNameOptions)
 }
 
 public func == (lhs: Expectation<Snapshotable>, rhs: Snapshot) {
     if let name = rhs.name {
         if rhs.record {
-            lhs.to(recordSnapshot(named: name, usesDrawRect: rhs.usesDrawRect))
+            lhs.to(recordSnapshot(named: name, fileNameOptions: rhs.fileNameOptions, usesDrawRect: rhs.usesDrawRect))
         } else {
             lhs.to(haveValidSnapshot(named: name, usesDrawRect: rhs.usesDrawRect))
         }
 
     } else {
         if rhs.record {
-            lhs.to(recordSnapshot(usesDrawRect: rhs.usesDrawRect))
+            lhs.to(recordSnapshot(fileNameOptions:rhs.fileNameOptions ,usesDrawRect: rhs.usesDrawRect))
         } else {
             lhs.to(haveValidSnapshot(usesDrawRect: rhs.usesDrawRect))
         }
