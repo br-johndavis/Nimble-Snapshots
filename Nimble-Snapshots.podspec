@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Nimble-Snapshots"
-  s.version      = "7.1.0"
+  s.version      = "9.1.0"
   s.summary      = "Nimble matchers for iOSSnapshotTestCase"
   s.description  = <<-DESC
                    Nimble matchers for iOSSnapshotTestCase. Highly derivative of [Expecta Matchers for iOSSnapshotTestCase](https://github.com/dblock/ios-snapshot-test-case-expecta).
@@ -10,7 +10,8 @@ Pod::Spec.new do |s|
   s.author             = { "Ash Furrow" => "ash@ashfurrow.com" }
   s.social_media_url   = "http://twitter.com/ashfurrow"
   s.ios.deployment_target = "10.0"
-  s.tvos.deployment_target = "9.0"
+  s.tvos.deployment_target = "10.0"
+  s.swift_version = '5.0'
   s.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
   s.source       = { :git => "https://github.com/ashfurrow/Nimble-Snapshots.git", :tag => s.version }
   s.default_subspec = "Core"
@@ -21,7 +22,7 @@ Pod::Spec.new do |s|
                         "Nimble_Snapshots/DynamicType/*.{swift,m,h}",
                         "Nimble_Snapshots/DynamicSize/*.{swift}"
     ss.dependency "iOSSnapshotTestCase", "~> 6.0"
-    ss.dependency "Nimble", "~> 8.0"
+    ss.dependency "Nimble"
   end
 
   # for compatibiliy reasons

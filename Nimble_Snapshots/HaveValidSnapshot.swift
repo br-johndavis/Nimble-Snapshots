@@ -27,6 +27,7 @@ public class FBSnapshotTest: NSObject {
 
     var referenceImagesDirectory: String?
     var tolerance: CGFloat = 0
+    var pixelTolerance: CGFloat = 0
 
     static let sharedInstance = FBSnapshotTest()
 
@@ -43,6 +44,7 @@ public class FBSnapshotTest: NSObject {
                                record: Bool,
                                referenceDirectory: String,
                                tolerance: CGFloat,
+                               perPixelTolerance: CGFloat,
                                filename: String,
                                identifier: String? = nil) -> Bool {
 
@@ -75,6 +77,7 @@ public class FBSnapshotTest: NSObject {
             try snapshotController.compareSnapshot(ofViewOrLayer: snapshotObject,
                                                    selector: Selector(snapshot),
                                                    identifier: identifier,
+                                                   perPixelTolerance: perPixelTolerance,
                                                    overallTolerance: tolerance)
 
             let image = try snapshotController.referenceImage(for: Selector(snapshot), identifier: identifier)
@@ -113,6 +116,14 @@ public func setNimbleTestFolder(_ testFolder: String) {
 
 public func setNimbleTolerance(_ tolerance: CGFloat) {
     FBSnapshotTest.sharedInstance.tolerance = tolerance
+}
+
+public func setNimblePixelTolerance(_ pixelTolerance: CGFloat) {
+    FBSnapshotTest.sharedInstance.pixelTolerance = pixelTolerance
+}
+
+public func recordAllSnapshots() {
+    switchChecksWithRecords = true
 }
 
 func getDefaultReferenceDirectory(_ sourceFileName: String) -> String {
@@ -179,6 +190,10 @@ func sanitizedTestName(_ name: String?) -> String {
     return components.joined(separator: "_")
 }
 
+func getPixelTolerance() -> CGFloat {
+    return FBSnapshotTest.sharedInstance.pixelTolerance
+}
+
 func getTolerance() -> CGFloat {
     return FBSnapshotTest.sharedInstance.tolerance
 }
@@ -197,6 +212,7 @@ private func performSnapshotTest(_ name: String?,
                                  usesDrawRect: Bool = false,
                                  actualExpression: Expression<Snapshotable>,
                                  failureMessage: FailureMessage,
+                                 pixelTolerance: CGFloat? = nil,
                                  tolerance: CGFloat?) -> Bool {
     // swiftlint:disable:next force_try force_unwrapping
     let instance = try! actualExpression.evaluate()!
@@ -204,10 +220,12 @@ private func performSnapshotTest(_ name: String?,
     let referenceImageDirectory = getDefaultReferenceDirectory(testFileLocation)
     let snapshotName = sanitizedTestName(name)
     let tolerance = tolerance ?? getTolerance()
+    let pixelTolerance = pixelTolerance ?? getPixelTolerance()
 
     let result = FBSnapshotTest.compareSnapshot(instance, isDeviceAgnostic: isDeviceAgnostic, fileNameOptions: fileNameOptions,
                                                 usesDrawRect: usesDrawRect, snapshot: snapshotName, record: false,
                                                 referenceDirectory: referenceImageDirectory, tolerance: tolerance,
+                                                perPixelTolerance: pixelTolerance,
                                                 filename: actualExpression.location.file, identifier: identifier)
 
     if !result {
@@ -231,6 +249,7 @@ private func recordSnapshot(_ name: String?,
     let referenceImageDirectory = getDefaultReferenceDirectory(testFileLocation)
     let snapshotName = sanitizedTestName(name)
     let tolerance = getTolerance()
+    let pixelTolerance = getPixelTolerance()
 
     clearFailureMessage(failureMessage)
 
@@ -242,6 +261,7 @@ private func recordSnapshot(_ name: String?,
                                       record: true,
                                       referenceDirectory: referenceImageDirectory,
                                       tolerance: tolerance,
+                                      perPixelTolerance: pixelTolerance,
                                       filename: actualExpression.location.file,
                                       identifier: identifier) {
         let name = name ?? snapshotName
@@ -269,6 +289,7 @@ public func haveValidSnapshot(named name: String? = nil,
                               identifier: String? = nil,
                               fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                               usesDrawRect: Bool = false,
+                              pixelTolerance: CGFloat? = nil,
                               tolerance: CGFloat? = nil) -> Predicate<Snapshotable> {
 
     return Predicate.fromDeprecatedClosure { actualExpression, failureMessage in
@@ -287,6 +308,7 @@ public func haveValidSnapshot(named name: String? = nil,
                                    usesDrawRect: usesDrawRect,
                                    actualExpression: actualExpression,
                                    failureMessage: failureMessage,
+                                   pixelTolerance: pixelTolerance,
                                    tolerance: tolerance)
     }
 }
@@ -295,6 +317,7 @@ public func haveValidDeviceAgnosticSnapshot(named name: String? = nil,
                                             identifier: String? = nil,
                                             fileNameOptions: FBSnapshotTestCaseFileNameIncludeOption? = nil,
                                             usesDrawRect: Bool = false,
+                                            pixelTolerance: CGFloat? = nil,
                                             tolerance: CGFloat? = nil) -> Predicate<Snapshotable> {
 
     return Predicate.fromDeprecatedClosure { actualExpression, failureMessage in
@@ -304,8 +327,8 @@ public func haveValidDeviceAgnosticSnapshot(named name: String? = nil,
         }
 
         return performSnapshotTest(name, identifier: identifier, isDeviceAgnostic: true, fileNameOptions: fileNameOptions, usesDrawRect: usesDrawRect,
-                                   actualExpression: actualExpression,
-                                   failureMessage: failureMessage, tolerance: tolerance)
+                                   actualExpression: actualExpression, failureMessage: failureMessage,
+                                   pixelTolerance: pixelTolerance, tolerance: tolerance)
     }
 }
 

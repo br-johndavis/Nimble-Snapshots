@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		095B47711D4773F000880922 /* Nimble_Snapshots.h in Headers */ = {isa = PBXBuildFile; fileRef = 095B47701D4773F000880922 /* Nimble_Snapshots.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		095B47891D47761500880922 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095B47861D47761500880922 /* FBSnapshotTestCase.framework */; };
-		095B478A1D47761500880922 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095B47871D47761500880922 /* Nimble.framework */; };
 		095B478F1D47794300880922 /* HaveValidSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095B478C1D47794300880922 /* HaveValidSnapshot.swift */; };
 		095B47901D47794300880922 /* CurrentTestCaseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095B478D1D47794300880922 /* CurrentTestCaseTracker.swift */; };
 		095B47911D47794300880922 /* PrettySyntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095B478E1D47794300880922 /* PrettySyntax.swift */; };
@@ -32,6 +30,7 @@
 		095B478D1D47794300880922 /* CurrentTestCaseTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentTestCaseTracker.swift; sourceTree = "<group>"; };
 		095B478E1D47794300880922 /* PrettySyntax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrettySyntax.swift; sourceTree = "<group>"; };
 		1A6755DD1F2A8D8E00D71721 /* Nimble_Snapshots.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Nimble_Snapshots.xcconfig; sourceTree = "<group>"; };
+		A0862BFC229C43EE004E82D2 /* Nimble-Snapshots.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Nimble-Snapshots.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D47CB5F71EC9973C00D5588D /* XCTestObservationCenter+CurrentTestCaseTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestObservationCenter+CurrentTestCaseTracker.h"; sourceTree = "<group>"; };
 		D47CB5F81EC9973C00D5588D /* XCTestObservationCenter+CurrentTestCaseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestObservationCenter+CurrentTestCaseTracker.m"; sourceTree = "<group>"; };
 		D4F7D4781ED764CD00B4D2FE /* DynamicSizeSnapshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSizeSnapshot.swift; sourceTree = "<group>"; };
@@ -46,8 +45,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				095B47891D47761500880922 /* FBSnapshotTestCase.framework in Frameworks */,
-				095B478A1D47761500880922 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +54,7 @@
 		095B47631D4773F000880922 = {
 			isa = PBXGroup;
 			children = (
+				A0862BFC229C43EE004E82D2 /* Nimble-Snapshots.podspec */,
 				095B476F1D4773F000880922 /* Nimble_Snapshots */,
 				095B476E1D4773F000880922 /* Products */,
 				095B47861D47761500880922 /* FBSnapshotTestCase.framework */,
@@ -149,7 +147,7 @@
 		095B47641D4773F000880922 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = Wallapop;
 				TargetAttributes = {
 					095B476C1D4773F000880922 = {
@@ -199,7 +197,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -246,6 +244,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -271,7 +270,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -306,6 +305,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -325,7 +325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -349,7 +349,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Nimble_Snapshots/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallapop.Nimble-Snapshots";
@@ -373,7 +373,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Nimble_Snapshots/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wallapop.Nimble-Snapshots";
